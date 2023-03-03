@@ -20,6 +20,7 @@
 #include <M5Unified.h>
 #include "BluetoothSerial.h"
 
+BluetoothSerial SerialBT;
 extern void testModes(void);
 extern void changePage(uint8_t * newPage);
 extern void displayField(uint8_t * newPage);
