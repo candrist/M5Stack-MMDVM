@@ -17,8 +17,10 @@
  */
 
 #include <Arduino.h>
-#include <M5Stack.h>
+#include <M5Unified.h>
+#include "BluetoothSerial.h"
 
+BluetoothSerial SerialBT;
 extern void testModes(void);
 extern void changePage(uint8_t * newPage);
 extern void displayField(uint8_t * newPage);
@@ -27,25 +29,8 @@ void testCountries(void);
 
 void setup() 
 {
-  // Open serial communications and wait for port to open:
-  Serial.begin(9600);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
-  //Serial.println("usb start");
-  
-  // // serial port on M5Stack is 16 (RX_PIN) and 17 (TX_PIN
-  #define RX_PIN 16
-  #define TX_PIN 17
-  Serial2.begin(9600, SERIAL_8N1, RX_PIN, TX_PIN);  //Serial port 2 initialization
-  //Serial.println("start");
-
+  SerialBT.begin("M5Stack-MMDVM"); //Bluetooth device name
   screenInit();
-
-//  testCountries();
-
-//  testModes();
-
 }
 
 void loop()
@@ -58,8 +43,8 @@ int index;
 index=0;
 packet=false;
   while (1) {
-    if (Serial2.available()>0) {
-      rxbuf[index++]=Serial2.read();
+    if (SerialBT.available()) {
+      rxbuf[index++]=SerialBT.read();
       if (index>4) {
         // if last 3 bytes are 0xff then that is the end of the packet found
         if ((rxbuf[index-3] == 0xff) && (rxbuf[index-2] == 0xff) && (rxbuf[index-1] == 0xff) ) {

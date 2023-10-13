@@ -17,7 +17,7 @@
  */
 
 #include <Arduino.h>
-#include <M5Stack.h>
+#include <M5Unified.h>
 #include "bitmaps.h"
 #include "nextion.h"
 
